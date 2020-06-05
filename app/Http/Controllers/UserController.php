@@ -18,8 +18,16 @@ class UserController extends Controller
     public function profile($nickname){
         $user = DB::select('select * from users where nickname = "'.$nickname.'"');
         
+        if(isset($user[0])){
+           $user = $user[0]; 
+        }else{
+            abort(404);
+        }
+        
+        
+        
         return view('user.profile')
-                ->with('user', $user[0]);
+                ->with('user', $user);
     }
     
     public function search(Request $request){
