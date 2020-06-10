@@ -15,6 +15,10 @@
                     @endif
                     <a href="{{ route('user_profile', Auth::user()->nickname) }}">My Profile</a>
                     <br><br>
+                    <a href="{{ route('message') }}">Messages</a>
+                    <br><br>
+                    <a href="{{ route('feed') }}">Feed</a>
+                    <br><br>
                     <a href="{{ route('user_search') }}">Search User</a>
                 </div>
             </div>

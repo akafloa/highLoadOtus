@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
-
+use Carbon\Carbon;
+use Cache;
+use App\Message_1;
+use App\Message_2;
+//use App\Jobs;
 
 
 class UserController extends Controller
@@ -57,18 +61,38 @@ class UserController extends Controller
     
     public function feed(){
         
-        //echo phpinfo(); return;
         $userId = Auth::user()->id;
         
-        $sql = 'SELECT p.*, u.* from posts p '
+        //Cache::flush();
+        //dd(1);
+        
+        $posts = cache($userId . '.feed');
+        
+        if(!$posts){
+            $posts = $this->getFeed($userId);
+        }
+        
+        
+        
+        return view('user.feed')->with('posts', $posts);
+    }
+    
+    public function createFeed($userId){
+        $sql = 'SELECT p.id as post_id,p.*, u.* from posts p '
                 . 'LEFT JOIN users u ON u.id = p.user_id '
                 . 'WHERE '
                 . 'p.user_id IN (SELECT follow_id FROM friends WHERE user_id = ?) '
                 . 'OR p.user_id = ? '
-                . 'order by p.id desc';
-        //echo $sql;        return;
-        $posts = DB::select($sql, [$userId, $userId]);
-        //dd($posts);
-        return view('user.feed')->with('posts', $posts);
+                . 'order by p.id desc LIMIT 1000';
+        return DB::select($sql, [$userId, $userId]);
     }
+    
+    
+    function getFeed($userId){
+        \App\Jobs\CreateFeed::dispatch($userId);
+        return cache($userId . '.feed');
+    }
+    
+    
+    
 }

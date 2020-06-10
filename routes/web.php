@@ -27,5 +27,8 @@ Route::get('/{nickName}', 'UserController@profile')->name('user_profile');
 Route::get('/user/search/{name?}', 'UserController@search')->name('user_search');
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::get('/feed', 'UserController@feed')->name('feed');
+    Route::get('/user/feed', 'UserController@feed')->name('feed');
+    Route::get('/user/message/{toUserId?}', 'MessageController@index')->name('message');
+    Route::post('/user/message/send', 'MessageController@send')->name('send');
+    
 });
