@@ -21,8 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/posts', 'PostController@index')->name('posts');
 Route::get('/{nickName}', 'UserController@profile')->name('user_profile');
+Route::get('/reports/mysql', 'ReportController@mysql');
+Route::get('/reports/clickhouse', 'ReportController@clickhouse');
 
 Route::get('/user/search/{name?}', 'UserController@search')->name('user_search');
 
