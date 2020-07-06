@@ -94,5 +94,11 @@ class UserController extends Controller
     }
     
     
-    
+    function test(){
+        $friends = Auth::user()->followers;
+        foreach ($friends as $friend){
+            echo $friend->user_id."\n";
+        }
+        dump($friends);
+    }
 }

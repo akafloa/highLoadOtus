@@ -33,4 +33,20 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/user/message/{toUserId?}', 'MessageController@index')->name('message');
     Route::post('/user/message/send', 'MessageController@send')->name('send');
     
+    Route::get('/user/t/test', 'UserController@test');
+    Route::get('/user/postadd', 'PostController@insert');
+    Route::get('/user/test', function(){
+        
+        $localsocket = 'tcp://127.0.0.1:1234';
+        $user = 5;
+        $message = 'test';
+
+        // соединяемся с локальным tcp-сервером
+        $instance = stream_socket_client($localsocket);
+        //dump($instance);
+        // отправляем сообщение
+        fwrite($instance, json_encode(['user' => $user, 'message' => $message])  . "\n");
+    
+        
+    });
 });

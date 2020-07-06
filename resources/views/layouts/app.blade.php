@@ -22,6 +22,22 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/chat.css') }}" rel="stylesheet">
+    
+    @auth
+        <script>
+            ws = new WebSocket("ws://165.22.29.236:8000/?user={{Auth::user()->id}}");
+            ws.onmessage = function(evt) {
+                var data = JSON.parse(evt.data);
+                $('<div class="row justify-content-center">'+
+                    '<div class="col-md-8">'+
+                        '<h3>'+data.title+'</h3>'+
+                        '<p>'+data.description+'</p>'+
+                    '</div>'+
+                '</div>').hide().fadeIn(1500).prependTo('main .container');
+            };
+        </script>
+    @endauth
+    
 </head>
 <body>
     <div id="app">

@@ -33,7 +33,7 @@ class ReportController extends Controller
         $sql = 'SELECT sex, avg(age) FROM `users` group by sex';
         
         $sql = 'SELECT sex, age, count(*) cnt
-                FROM `mysql_users_`
+                FROM `mysql_users_4`
                 group by age,sex order by sex, age';
         
         

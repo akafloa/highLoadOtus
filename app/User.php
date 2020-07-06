@@ -36,4 +36,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    //кого фоловлью я
+    public function following(){
+        return $this->hasMany('App\Friend');
+    }
+    
+    //кто фоловит меня
+    public function followers(){
+        return $this->hasMany('App\Friend', 'follow_id');
+    }
 }
